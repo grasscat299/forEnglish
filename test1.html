@@ -1,0 +1,43 @@
+# grasscat229.github.io
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <p id="a"></p>
+        <p id="b"></p>
+        日本語：<input type="button" value="next" onclick="main()">
+        英訳：<input type="button" value="back" onclick="mainb()">
+    </body>
+</html>
+<script>
+    let bun=[ "maru1", "maru2", "maru3", "maru4", "maru5", "maru6" ];
+    let a = document.getElementById("a");
+    let b = document.getElementById("b");
+    
+    a.innerHTML = bun[0];
+    b.innerHTML = "--";
+    
+    
+    let c = 0;
+    function main(){
+        if( c >= 0 && c < bun.length-1 ) c ++ ;
+        if( c%2 == 0 ){
+            a.innerHTML = bun[c];
+            b.innerHTML = "--";
+        } 
+        else b.innerHTML = bun[c];
+    }
+    function mainb(){
+        if( c > 0 && c < bun.length-1 ) c --;
+        if( c%2 == 0 ){
+            a.innerHTML = bun[c];
+            b.innerHTML = "--";
+        }else{
+            a.innerHTML = bun[c-1];
+            b.innerHTML = bun[c];
+        }
+    }
+</script>
