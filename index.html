@@ -12,8 +12,8 @@
         <input type="button" value="back" onclick="mainb()" style="width:120px;height:80px;">
         <br>
         <p style="margin-bottom: 30px;"></p>
-        <nobr id="A" class="url">HW受動態</nobr>
-        <nobr id="B" class="url">HW関係代名詞</nobr>
+        <nobr id="A" class="url" onclick="getD(0)">HW受動態プリント</nobr>
+        <nobr id="B" class="url" onclick="getD(1)">HW関係代名詞プリント</nobr>
         <style type="text/css">
             .url{
                 color:blue;
@@ -23,12 +23,12 @@
     </body>
 </html>
 <script>
-    
+    let pname = ["HW受動態プリント", "HW関係代名詞プリント" ]
     let bun=[];
     let a = document.getElementById("a");
     let b = document.getElementById("b");
     let c = 0;
-    getD( "HW1" );
+    getD( "0" );
     function getD( Dname ){
         let req = new XMLHttpRequest();
         req.open("GET","https://grasscat299.github.io/grasscat229.github.io/"+Dname+".json");
@@ -40,26 +40,12 @@
                 a.innerHTML = "日本語："+bun[0];
                 b.innerHTML = "英訳："+"--";
                 c = 0;
+                document.getElementById("C").innerHTML = pname[Dname];
                 return;
             }
         };
         req.send();
     }
-    
-    
-    let Aelm=document.getElementById("A");
-    Aelm.addEventListener( "click",
-    function(){
-        getD( "HW1" );
-    },
-    false )
-    
-    let Belm=document.getElementById("B");
-    Belm.addEventListener( "click",
-    function(){
-        getD( "HW2" );
-    },
-    false )
     
     function main(){
         if( c >= 0 && c < bun.length-1 ) c ++ ;
