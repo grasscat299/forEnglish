@@ -4,57 +4,70 @@
         <meta charset="utf-8">
     </head>
     <body>
-        日本語：<nobr id="a"></nobr>
-
+        <p id="a"></p>
+        <p id="b"></p>
+        <input type="button" value="next" onclick="main()" style="width:120px;height:80px;">
+        <input type="button" value="back" onclick="mainb()" style="width:120px;height:80px;">
         <br>
-        英訳  ：<nobr id="b"></nobr>
-
-        <br>
-        <input type="button" value="next" onclick="main()">
-        <input type="button" value="back" onclick="mainb()">
+        <p style="margin-bottom: 30px;"></p>
+        <nobr id="A" class="url">HW受動態</nobr>
+        <style type="text/css">
+            .url{
+                color:blue;
+                text-decoration : underline;
+            }
+        </style>
     </body>
 </html>
 <script>
     let bun=[];
     let a = document.getElementById("a");
     let b = document.getElementById("b");
-
-    let req = new XMLHttpRequest();
-    req.open("GET","https://grasscat299.github.io/grasscat229.github.io/test1.json");
-    req.onreadystatechange=function(){
-        if(req.readyState == 4 && req.status == 200 ){
-            let jsonData = req.responseText;
-            bun = eval( "(" + jsonData + ")" );
-
-            a.innerHTML = bun[0];
-            b.innerHTML = "--";
-            return;
-        }
-    };
-    req.send();
-    
-    
-    
-    
     let c = 0;
+    getD( "HW1" );
+    function getD( Dname ){
+        let req = new XMLHttpRequest();
+        req.open("GET","https://grasscat299.github.io/grasscat229.github.io/"+Dname+".json");
+        req.onreadystatechange=function(){
+            if(req.readyState == 4 && req.status == 200 ){
+                let jsonData = req.responseText;
+                bun = eval( "(" + jsonData + ")" );
+
+                a.innerHTML = "日本語："+bun[0];
+                b.innerHTML = "英訳："+"--";
+                c = 0;
+                return;
+            }
+        };
+        req.send();
+    }
+    
+    
+    let Aelm=document.getElementById("A");
+    Aelm.addEventListener( "click",
+    function(){
+        getD( "HW1" );
+    },
+    false )
+    
     function main(){
         if( c >= 0 && c < bun.length-1 ) c ++ ;
         console.log( "c", c );
         if( c%2 == 0 ){
-            a.innerHTML = bun[c];
-            b.innerHTML = "--";
+            a.innerHTML = "日本語："+bun[c];
+            b.innerHTML = "英訳："+"--";
         } 
-        else b.innerHTML = bun[c];
+        else b.innerHTML = "英訳："+bun[c];
     }
     function mainb(){
         if( c > 0 && c <= bun.length-1 ) c --;
         console.log( "c", c );
         if( c%2 == 0 ){
-            a.innerHTML = bun[c];
-            b.innerHTML = "--";
+            a.innerHTML = "日本語："+bun[c];
+            b.innerHTML = "英訳："+"--";
         }else{
-            a.innerHTML = bun[c-1];
-            b.innerHTML = bun[c];
+            a.innerHTML = "日本語："+bun[c-1];
+            b.innerHTML = "英訳："+bun[c];
         }
     }
 </script>
