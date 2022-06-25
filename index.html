@@ -5,25 +5,41 @@
     </head>
     <body>
         日本語：<nobr id="a"></nobr>
+
         <br>
-        英訳：<nobr id="b"></nobr>
+        英訳  ：<nobr id="b"></nobr>
+
         <br>
         <input type="button" value="next" onclick="main()">
         <input type="button" value="back" onclick="mainb()">
     </body>
 </html>
 <script>
-    let bun=[ "maru1", "maru2", "maru3", "maru4", "maru5", "maru6" ];
+    let bun=[];
     let a = document.getElementById("a");
     let b = document.getElementById("b");
+
+    let req = new XMLHttpRequest();
+    req.open("GET","https://grasscat299.github.io/grasscat229.github.io/test1.json");
+    req.onreadystatechange=function(){
+        if(req.readyState == 4 && req.status == 200 ){
+            let jsonData = req.responseText;
+            bun = eval( "(" + jsonData + ")" );
+
+            a.innerHTML = bun[0];
+            b.innerHTML = "--";
+            return;
+        }
+    };
+    req.send();
     
-    a.innerHTML = bun[0];
-    b.innerHTML = "--";
+    
     
     
     let c = 0;
     function main(){
         if( c >= 0 && c < bun.length-1 ) c ++ ;
+        console.log( "c", c );
         if( c%2 == 0 ){
             a.innerHTML = bun[c];
             b.innerHTML = "--";
@@ -32,6 +48,7 @@
     }
     function mainb(){
         if( c > 0 && c <= bun.length-1 ) c --;
+        console.log( "c", c );
         if( c%2 == 0 ){
             a.innerHTML = bun[c];
             b.innerHTML = "--";
