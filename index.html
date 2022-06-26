@@ -125,6 +125,7 @@ You are a cat.
         req.onreadystatechange=function(){
             if(req.readyState == 4 && req.status == 200 ){
                 console.log( "sendD");
+                console.log( req.responceText );
                 getpname();
                 return;
             }
