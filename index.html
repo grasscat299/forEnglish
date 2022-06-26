@@ -2,8 +2,6 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1">
-</head>
     </head>
     <body>
         <h3 id="C"></h3>
@@ -12,9 +10,24 @@
         <input type="button" value="next" onclick="main()" style="width:120px;height:80px;">
         <input type="button" value="back" onclick="mainb()" style="width:120px;height:80px;">
         <br>
-        <p style="margin-bottom: 30px;"></p>
-        <nobr id="A" class="url" onclick="getD(0)">HW受動態プリント</nobr>
-        <nobr id="B" class="url" onclick="getD(1)">HW関係代名詞プリント</nobr>
+        <p style="margin-bottom: 30px;" id = "A" ></p>
+        <script>
+            function insurl(){
+                let A = document.getElementById("A");
+                let urlelms = document.getElementsByClassName( "url" );
+                console.log(urlelms.length);
+                for( let d = urlelms.length-1; d >= 0 ; d -- ){
+                    console.log( "d", d );
+                    urlelms[d].remove();
+                }
+                
+                for( let d = 0; d < pname.length ; d ++ ){
+                    A.insertAdjacentHTML( "beforebegin", '<nobr class="url" onclick="getD('+"'"+pname[d]+"'"+')">'+pname[d]+'</nobr><nobr> </nobr>') ;
+                    
+                }
+                return;
+            }
+        </script>
         <style type="text/css">
             .url{
                 color:blue;
@@ -22,28 +35,97 @@
             }
         </style>
         <br>
-        <p style="color:silver;">powerd by 299</p>
+        <h3>---例文追加はこちら---</h3>
+        <nobr>タイトル：</nobr>
+        <br>
+        <input type="text" id="E" value="タイトルを入力してください" style="width:200px;" >
+        <p></p>
+        <br>
+        <nobr>追加したい例文：</nobr>
+        <br>
+        <textarea id="D" cols="80" rows="20">
+追加したい文章のカタマリを日本語、英語の順に入れてください。
+（最後の行は改行しないで！）
+（この初めに入っているtextは消してから入力してください）
+---例---
+私は猫です。
+あなたは猫です。
+I am a cat.
+You are a cat.
+        </textarea>
+        <br>
+        <input type="button" value="例文追加" style="width:120px;height:80px;" onclick="sendD()">
     </body>
 </html>
 <script>
-    let pname = ["HW受動態プリント", "HW関係代名詞プリント" ]
+    let Dname = "HW受動態プリント";
+    function getpname(){
+        let req = new XMLHttpRequest();
+        req.open("GET","https://grasscat299.github.io/grasscat229.github.io/index.json");
+        req.onreadystatechange=function(){
+            if(req.readyState == 4 && req.status == 200 ){
+                console.log( "getpname" );
+                let jsonData = req.responseText;
+                pname = eval( "(" + jsonData + ")" );
+                document.getElementById("C").innerHTML = Dname;
+                insurl();
+                return;
+            }
+        };
+        req.send();
+    }
+    //let pname=[ "HW受動態プリント", "HW関係代名詞プリント" ];
     let bun=[];
     let a = document.getElementById("a");
     let b = document.getElementById("b");
     let c = 0;
-    getD( "0" );
-    function getD( Dname ){
+    getD( Dname );
+    function getD( Dnamea ){
+        Dname = Dnamea;
         let req = new XMLHttpRequest();
         req.open("GET","https://grasscat299.github.io/grasscat229.github.io/"+Dname+".json");
         req.onreadystatechange=function(){
             if(req.readyState == 4 && req.status == 200 ){
+                console.log( "getD" );
                 let jsonData = req.responseText;
                 bun = eval( "(" + jsonData + ")" );
-
                 a.innerHTML = "日本語："+bun[0];
                 b.innerHTML = "英訳："+"--";
                 c = 0;
-                document.getElementById("C").innerHTML = pname[Dname];
+                getpname();
+                console.log( "return" );
+                
+                return;
+            }
+        };
+        req.send();
+    }
+
+    function sendD(){
+        let delm = document.getElementById("D");
+        let lines = delm.value.split( "\n" );
+        let str = [ "[" ]; 
+        let n = 0;
+        console.log( "lines", lines );
+        for( let i = 0; i < lines.length/2; i ++ ){
+            str[n*2+1] = '"'+lines[i]+'"';
+            if( i+1 == lines.length/2 ){
+                str[(n+1)*2] = '"'+lines[i+lines.length/2]+'"';
+            }else{
+                str[(n+1)*2] = '"'+lines[i+lines.length/2]+'"';
+            }
+            n ++ ;
+        }
+        str[n*2+1] = "]";
+        let eelm = document.getElementById( "E" ).value;
+        console.log( "str", str, "title", eelm );
+
+        let req = new XMLHttpRequest();
+        req.open("GET","https://grasscat299.github.io/grasscat229.github.io/ES1.php?str="+str+"&title="+eelm);
+        req.onreadystatechange=function(){
+            if(req.readyState == 4 && req.status == 200 ){
+                console.log
+                getpname();
                 return;
             }
         };
