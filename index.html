@@ -64,7 +64,7 @@ You are a cat.
     let Dname = "HW受動態プリント";
     function getpname(){
         let req = new XMLHttpRequest();
-        req.open("GET","https://grasscat299.github.io/grasscat229.github.io/index.json");
+        req.open("GET","https://grasscat299.github.io/forEnglish/index.json");
         req.onreadystatechange=function(){
             if(req.readyState == 4 && req.status == 200 ){
                 console.log( "getpname" );
@@ -86,7 +86,7 @@ You are a cat.
     function getD( Dnamea ){
         Dname = Dnamea;
         let req = new XMLHttpRequest();
-        req.open("GET","https://grasscat299.github.io/grasscat229.github.io/"+Dname+".json");
+        req.open("GET","https://grasscat299.github.io/forEnglish/"+Dname+".json");
         req.onreadystatechange=function(){
             if(req.readyState == 4 && req.status == 200 ){
                 console.log( "getD" );
